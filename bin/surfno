@@ -1,7 +1,6 @@
 #!/bin/sh
 
-STATUS=`grep -c "SURFNO" /etc/hosts`
-if [ $STATUS -gt 0 ]; then
+if [ `surfstat` -gt 0 ]; then
     echo /etc/hosts is already in nosurf mode, run 'surf && nosurf' to update properly
     exit
 fi
