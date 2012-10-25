@@ -1,0 +1,21 @@
+#!/bin/sh
+
+STATUS=`grep -c "SURFNO" /etc/hosts`
+if [ $STATUS -gt 0 ]; then
+    echo /etc/hosts is already in nosurf mode, run 'surf && nosurf' to update properly
+    exit
+fi
+
+sudo cp /etc/hosts /etc/hosts.bak
+
+block=`cat $HOME/.surfnorc`
+
+cat /etc/hosts > /tmp/hosts.tmp
+echo '# BEGIN SURFNO BLOCK' >> /tmp/hosts.tmp
+for domain in $block; do 
+    echo "0.0.0.0 $domain" >> /tmp/hosts.tmp
+done
+echo '# END SURFNO BLOCK' >> /tmp/hosts.tmp
+
+sudo cp /tmp/hosts.tmp /etc/hosts
+rm /tmp/hosts.tmp

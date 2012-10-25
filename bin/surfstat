@@ -1,0 +1,28 @@
+#!/bin/sh
+
+VERBOSE=0
+while getopts 'v' option; do
+    case "$option" in
+    v) VERBOSE=1 
+       ;;
+    esac
+done
+
+GREEN="[32;01m"
+RED="[31;01m"
+OFF="[0m"
+
+STATUS=`grep -c "SURFNO" /etc/hosts`
+if [ $STATUS -gt 0 ]; then
+  if [ $VERBOSE -gt 0 ]; then
+    echo "${RED}surfNO${OFF}"
+  else
+    echo $STATUS
+  fi
+else
+  if [ $VERBOSE -gt 0 ]; then
+    echo "${GREEN}surfON${OFF}"
+  else
+    echo $STATUS
+  fi
+fi
